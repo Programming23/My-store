@@ -1,0 +1,58 @@
+{% extends 'base_boot.html' %}
+{% load static %}
+{% block head %}
+<link rel = "stylesheet" href = "{% static 'css/contact.css' %}">
+{% endblock head %}
+
+{% block content %}
+<main class="main">
+    <h1 style="text-align: center; margin: 15px 0;">{{constants.contact_title}}</h1>
+    <div class="informations">
+        {% if settings.address != None %}
+        <div class="info">
+          <span>العنوان</span>
+          <span class="info-span">{{settings.address}}</span>
+        </div>
+      {% endif %}
+        <div class="info">
+            <span>رقم الهاتف</span>
+            <span class="info-span">{{settings.phone}}</span>
+        </div>
+        {% if settings.email != None %}
+        <div class="info">
+          <span>البريد الالكتروني</span>
+          <span class="info-span">{{settings.email}}</span>
+        </div>
+        {% endif %}
+    </div>
+    <h1 style="text-align: center; margin: 15px 0;">{{constants.contact_form_title}}</h1>
+    <form method="post" class="p-4">
+        {% csrf_token %}
+        {% if error != None %}<p style="font-size: 14px;" class="alert alert-danger">{{error}}</p>{% endif %}
+        {% if success != None %}<p style="font-size: 14px;" class="alert alert-success">{{success}}</p>{% endif %}
+        <div class="row g-3">
+          <div class="col-12">
+            <label for="name" class="form-label">الاسم الكامل</label>
+            <input type="text" class="form-control" oninput="restrictInput(this, 'A-Za-zأ-ي؀-ۿ\\s')" id="name" name="name" placeholder="الاسم الكامل" required="">
+          </div>
+
+          <div class="col-12">
+            <label for="phone" class="form-label">رقم الهاتف</label>
+            <input type="tel" style='direction: rtl;' class="form-control" minlength="10" maxlength="12" oninput="restrictInput(this, '0-9')" id="phone" placeholder="رقم الهاتف" name="phone" required="">
+          </div>
+
+          <div class="col-12">
+            <label for="subject" class="subject">الموضوع</label>
+            <input type="text" style='direction: rtl;' class="form-control" maxlength="200"  placeholder="الموضوع"  id="sucject" name="subject" required="">
+          </div>
+
+          <div class="col-12">
+            <label for="address" class="form-label" >الرسالة</label>
+            <textarea class="form-control" style="resize: vertical;" maxlength="2000" placeholder="الرسالة" id="message" name="message" required=""></textarea>
+          </div>
+        </div>
+        <button class="w-100 btn btn-sub btn-lg mt-3" name="save_message" type="submit">تأكيد</button>
+    </form>
+</main>
+{% endblock content %}
+

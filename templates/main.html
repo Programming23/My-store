@@ -1,0 +1,138 @@
+{% extends 'base_boot.html' %}
+{% load static %}
+{% block head %}
+<link rel = "stylesheet" href = "{% static 'css/main.css' %}">
+<style>
+    #main-image{
+        background: url({{settings.main_image.url}}) top/cover no-repeat;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div id = "main-image" class = "vh-100 carousel slide" data-bs-ride = "carousel" ></div>
+<!-- collection -->
+<section id = "collection" class = "py-5">
+    <div class = "container">
+        <div class = "title text-center">
+            <h2 class = "position-relative d-inline-block">{{constants.title_products}}</h2>
+        </div>
+
+        <div class = "row g-0">
+            <div class = "d-flex flex-wrap justify-content-center mt-5 filter-button-group">
+                <button type = "button" class = "btn m-2 text-dark active-filter-btn" data-filter = "*">الكل</button>
+                {% for t in types %}
+                <button type = "button" class = "btn m-2 text-dark" data-filter = ".type-{{t.id}}">{{t.name}}</button>
+                {% endfor %}
+            </div>
+
+            <div class = "collection-list mt-4 row gx-0 gy-3">
+                {% for product in products %}
+                <div class = "col-sm-6 col-md-6 col-lg-4 col-xl-3 p-2 type-{{product.product_type.id}}" onclick="redirect(`{% url 'product' name=product.url %}`);" style="cursor: pointer;">
+                    <div class = "collection-img position-relative">
+                        <img src = "{{product.image.url}}" alt="{{product.name}}" draggable="false" class = "w-100">
+                    </div>
+                    <div class = "text-center mt-3" style="direction: ltr;">
+                        <p class = "text-capitalize my-1">{{product.name}}</p>
+                        <p class="text-muted my-1">{{product.product_type.name}}</p>
+                        <span class = "fw-bold">{{product.price}} {{settings.currency}}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end of collection -->
+
+<!-- special products -->
+<section id = "special" class = "py-5">
+    <div class = "container">
+        <div class = "title text-center py-5">
+            <h2 class = "position-relative d-inline-block">{{constants.title_special_products}}</h2>
+        </div>
+        <div class = "special-list row g-0">
+            {% for product in bigproducts %}
+            <div class = "col-sm-6 col-md-6 col-lg-4 col-xl-3 p-2" style="cursor: pointer;" onclick="redirect(`{% url 'product' name=product.product.url %}`);">
+                <div class = "special-img position-relative overflow-hidden">
+                    <img src = "{{product.product.image.url}}" alt="{{product.product.name}}" draggable="false" class = "w-100">
+                </div>
+                <div class = "text-center" style="direction: ltr;">
+                    <p class = "text-capitalize mt-3 mb-1">{{product.product.name}}</p>
+                    <p class="text-muted my-1">{{product.product.product_type.name}}</p>
+                    <span class = "fw-bold d-block">{{product.product.price}} {{settings.currency}}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- end of special products -->
+
+<section class="features-section text-center">
+    <div class="container">
+      <div class="row" style="justify-content: center;">
+        {% for f in features %}
+        <div class="col-lg-4 col-md-4 col-sm-6">
+            <div class="feature-icon">
+              <i class="{{f.icon}}"></i>
+            </div>
+            <h3 class="feature-title">{{f.title}}</h3>
+            <p class="feature-description">{{f.content}}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- about us -->
+<section id="about" class="py-5">
+    <div class="container">
+        <div class="row gy-lg-5 align-items-center">
+            <div class="col-md-6 col-lg-6 order-lg-0">
+                <img src="{{settings.about_us_image.url}}" draggable="false" class="img-fluid">
+            </div>
+            <div class="col-md-6 col-lg-6 order-lg-1 text-center text-lg-start">
+                <div class="title pt-3 pb-3">
+                    <h2 class="position-relative d-inline-block ms-4">{{constants.about_us_title}}</h2>
+                </div>
+                <p class="text-muted">{{constants.about_us_content}}</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end of about us -->
+
+<!-- popular -->
+<section id = "popular" class = "py-5">
+    <div class = "container">
+        <div class = "title text-center pt-3 pb-5">
+            <h2 class = "position-relative d-inline-block ms-4">{{constants.title_lists}}</h2>
+        </div>
+
+        <div class = "row">
+            {% for list in lists %}
+            <div class = "col-md-6 col-lg-4 row g-3">
+                <h3 class = "fs-5">{{list}}</h3>
+                {% for product in list.products.all %}
+                <div class = "d-flex align-items-start justify-content-start" style="cursor: pointer;" onclick="redirect(`{% url 'product' name=product.url %}`)">
+                    <img draggable="false" src = "{{product.image.url}}" alt = "{{product.name}}" class = "img-fluid pe-3" style="width: 30%;">
+                    <div>
+                        <p class = "mb-0">{{product.name}}</p>
+                        <p class = "text-muted mb-0">{{product.product_type.name}}</p>
+                        <span class="text-muted">{{product.price}} {{settings.currency}}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- end of popular -->
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/index.js' %}"></script>
+{% endblock script %}

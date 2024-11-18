@@ -1,0 +1,28 @@
+.contact-info p {
+    margin: 5px 0;
+  }
+  
+.informations{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .info{
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #f9f9f9;
+    box-shadow: 1px 1px 4px 0px gray;
+    padding: 15px;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  .info-span{
+    color: gray;
+    font-size: 14px;
+  }

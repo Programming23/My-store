@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Cairo';
+    src: url('../fonts/font.ttf') format('truetype');
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+span,
+button,
+label,
+li,
+input,
+a {
+    font-family: "Cairo", sans-serif !important;
+}

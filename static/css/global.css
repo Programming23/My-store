@@ -1,0 +1,106 @@
+:root {
+    --font: Cairo, sans-serif;
+    --header-height: 70px;
+}
+
+* {
+    list-style: none;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-family: var(--font);
+    direction: rtl;
+}
+
+
+/* header */
+
+header {
+    height: var(--header-height);
+    width: 100%;
+    background: white;
+    box-shadow: 0 0.5px 2px 0px gray;
+    justify-content: space-evenly;
+    display: flex;
+    gap: 10px;
+    padding: 0 10px;
+    align-items: center;
+}
+
+.icons {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 0;
+    left: 15px;
+    height: var(--header-height);
+    align-items: center;
+}
+
+.icon {
+    font-size: 22px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: inherit;
+}
+
+#bars-icon {
+    display: none;
+}
+
+.navbar-list {
+    flex: 1;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+}
+
+.navbar-list li a {
+    color: black;
+    font-size: 16px;
+}
+
+.form-subscription {
+    box-shadow: 0 0.5px 2px 0px gray;
+    max-width: 500px;
+    width: 90%;
+}
+
+.btn-sub {
+    background-color: var(--color-primary) !important;
+    color: #fff !important;
+    border-color: var(--color-primary) !important;
+}
+
+.form-control {
+    direction: rtl;
+}
+
+@media screen and (max-width: 928px) {
+    header {
+        flex-direction: column;
+        align-items: start;
+        height: auto;
+        min-height: var(--header-height);
+    }
+    #bars-icon {
+        display: block;
+    }
+    .navbar-list {
+        flex-direction: column;
+        display: none;
+        padding: 15px;
+        padding-top: 0;
+    }
+    .active {
+        display: flex;
+    }
+}

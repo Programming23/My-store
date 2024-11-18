@@ -1,0 +1,68 @@
+{% extends 'base_boot.html' %}
+
+{% block content %}
+
+  <div class="row g-3 m-4">
+    <div class="col-md-5 col-lg-4 order-md-last">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">عربة التسوق</span>
+        <span class="badge bg-secondary rounded-pill">{{cartQuantity}}</span>
+      </h4>
+      <ul class="list-group mb-3">
+        {% for product in products %}
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">{{product.name}} ({{product.quantity}})</h6>
+            <small class="text-muted">{{product.product_type.name}}</small>
+          </div>
+          <span class="text-muted">{% widthratio product.price 1 product.quantity %}{{settings.currency}}</span>
+        </li>
+        {% endfor %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span>مصاريف الشحن ({{settings.currency}})</span>
+          <strong id="ship_price">{{ship}}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>مجموع ({{settings.currency}})</span>
+          <strong id="total">{{all_total}}</strong>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">{{constants.checkout_title}}</h4>
+      <form method="post">
+        {% csrf_token %}
+        {% if order_error != None %}<p style="font-size: 14px;" class="alert alert-danger">{{order_error}}</p>{% endif %}
+        <div class="row g-3">
+          <div class="col-12">
+            <label for="name" class="form-label">الاسم الكامل</label>
+            <input type="text" class="form-control" {% if info != None %}value="{{info.name}}"{% endif %} oninput="restrictInput(this, 'A-Za-zأ-ي؀-ۿ\\s')" id="name" name="name" placeholder="الاسم الكامل" required="">
+          </div>
+
+          <div class="col-12">
+            <label for="phone" class="form-label">رقم الهاتف</label>
+            <input type="tel" style='direction: rtl;' {% if info != None %}value="{{info.phone}}"{% endif %} class="form-control" minlength="10" maxlength="12" oninput="restrictInput(this, '0-9')" id="phone" placeholder="رقم الهاتف" name="phone" required="">
+          </div>
+
+          <div class="col-12">
+            <label for="city" class="form-label">المدينة</label>
+            <select class="form-select" id="city" onchange="var price = this.options[this.selectedIndex].getAttribute('price');document.getElementById('ship_price').textContent = price;document.getElementById('total').textContent = {{total}} + parseInt(price)" name='city' required="">
+              <option value="0" ship="-">إختر المدينة</option>
+                {% for ship in ships %}
+                <option value="{{ship.city}}" price="{{ship.price}}"  {% if info != None and info.city == ship.city %}selected{% endif %}>{{ship.city}}</option>
+                {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label for="address" class="form-label" >العنوان</label>
+            <input type="text" class="form-control" {% if info != None %}value="{{info.address}}"{% endif %} id="address" name="address" oninput="restrictInput(this, 'A-Z0-9a-zأ-ي؀-ۿ\\s')" placeholder="1234 الشارع الأول" required="">
+          </div>
+          
+        </div>
+        <button class="w-100 btn btn-sub btn-lg mt-3" name="save_order" type="submit">{{constants.checkout_button}}</button>
+      </form>
+    </div>
+  </div>
+
+  {% endblock content %}

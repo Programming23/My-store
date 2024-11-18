@@ -1,0 +1,19 @@
+<form class="m-auto form-subscription p-4 mt-4" style="
+    max-width: 500px;
+" method='post'>
+{% csrf_token %}
+<h3 class = "text-center">{{constants.subscription_title}}</h3>
+{% if sub_error != None or sub_success != None %}<p style="font-size: 14px;" class="alert mt-3 {% if sub_error != None %}alert-danger{% else %}alert-success{% endif %}">{% if sub_error != None %}{{sub_error}}{% else %}{{sub_success}}{% endif %}</p>{% endif %}
+      <div class="form-outline mb-4">
+        <label class="form-label" for="name">الاسم الكامل</label>
+        <input maxlength='40' minlength='3' oninput="restrictInput(this)" type="text" id="name" name="name" placeholder="الاسم الكامل" required class="form-control">
+      </div>
+      <div class="form-outline mb-4">
+        <label class="form-label" for="phone">رقم الهاتف</label>
+        <input type="tel" style="direction: rtl;" minlength="10" maxlength="12" oninput="restrictInput(this, '0-9')" id="phone" placeholder="رقم الهاتف" name="phone" required class="form-control">
+      </div>
+      <div class="form-outline text-center">
+        <button type="submit" name="subscribe" class="btn-sub btn btn-block mb-4 text-center">تأكيد</button>
+      </div>
+      
+    </form>

@@ -1,0 +1,117 @@
+{% extends 'base_boot.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+<div class="container mt-4 mb-3">
+    <div class="row">
+        {% if cartQuantity == 0 %}
+        <h2 class="text-center">السلة فارغة من المنتوجات. <a href="{% url 'index' %}">تسوق الآن!</a></h2>
+        {% else %}
+        <form class="col-xl-8" method="post">
+            {% csrf_token %}
+            {% for product in products %}
+            <div class="card border shadow-none">
+                <div class="card-body">
+                    <div class="d-flex align-items-start border-bottom pb-3">
+                        <div class="me-4">
+                            <img src="{{product.image.url}}" alt="{{product.name}}" draggable="false" class="avatar-lg rounded">
+                        </div>
+                        <div class="flex-grow-1 align-self-center overflow-hidden">
+                            <div>
+                                <h5 class="text-truncate font-size-18"><a href="{% url 'product' name=product.url %}" class="text-dark">{{product.name}}</a></h5>
+                                <p class="mb-0 mt-1">النوع : <span class="fw-medium">{{product.product_type.name}}</span></p>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 ms-2" style="cursor: pointer;" onclick="deleteProduct(this, `{% url 'remove_cart_item' item=product.id %}`)">
+                            <i class="fas fa-trash text-danger" style="font-size: 19px;"></i>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mt-3">
+                                    <p class="text-muted mb-2">الثمن</p>
+                                    <h5 class="mb-0 mt-2"><span style="color: var(--color-primary)">{{product.price}}{{settings.currency}}</span>{% if product.old_price != None %}<span class="text-muted me-2"><del style="text-decoration: revert;" class="font-size-16 fw-normal">{{product.old_price}}{{settings.currency}}</del></span>{% endif %}</h5></div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="mt-3">
+                                    <p class="text-muted mb-2">الكمية</p>
+                                    <div class="d-inline-flex">
+                                        <input type="text" class="form-control text-center" name="quantity-{{product.id}}" id="quantity-{{product.id}}" min="1" max="{{product.max_quantity}}" value="{{product.quantity}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mt-3">
+                                    <p class="text-muted mb-2">المجموع</p>
+                                    <h5>{% widthratio product.price 1 product.quantity %}{{settings.currency}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end card -->
+            {% endfor %}
+
+            <button type="submit" name='save_changes' class="btn btn-sub m-2">حفظ</button>
+            <div class="row my-4">
+                <div class="col-6">
+                    <a href="{% url 'index' %}" class="btn btn-link text-muted">
+                        <i class="mdi mdi-arrow-left me-1"></i> متابعة التسوق </a>
+                </div> <!-- end col -->
+                <div class="col-6">
+                    <div class="text-end mt-2 mt-sm-0">
+                        <a href="{% url 'checkout' %}" class="btn btn-sub">
+                            <i class="mdi mdi-cart-outline me-1"></i> استمرار </a>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row-->
+        </form>
+
+        <div class="col-xl-4">
+            <div class="mt-5 mt-lg-0">
+                <div class="card border shadow-none">
+                    <div class="card-header bg-transparent border-bottom py-3 px-4">
+                        <h5 class="font-size-16 mb-0">عربة التسوق</h5>
+                    </div>
+                    <div class="card-body p-4 pt-2">
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td>ثمن المنتوجات :</td>
+                                        <td class="text-end">{{total}}{{settings.currency}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ثمن التوصيل :</td>
+                                        <td class="text-end">{{ship}}{% if ship != '-' %}{{settings.currency}}{% endif %}</td>
+                                    </tr>
+                                    <tr class="bg-light">
+                                        <th>المجموع :</th>
+                                        <td class="text-end">
+                                            <span class="fw-bold">{{all_total}}{% if all_total != '-' %}{{settings.currency}}{% endif %}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end table-responsive -->
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+    <!-- end row -->
+</div> 
+    {% endblock content %}
+    

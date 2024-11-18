@@ -1,0 +1,21 @@
+<!-- footer -->
+<div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <div class="col-md-4 d-flex align-items-center">
+        <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+          <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+        <span class="mb-3 mb-md-0 text-muted">{{constants.title_footer}}</span>
+      </div>
+  
+      {% if settings.whatsapp == True or settings.instagram != None or settings.facebook != None or settings.phone_feature == True  %}
+      <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+       {% if settings.instagram != None %} <li class="ms-3"><a class="text-muted" style="font-size: 20px" href="{{settings.instagram}}"><i class="fab fa-instagram"></i></a></li>{% endif %}
+       {% if settings.facebook != None %} <li class="ms-3"><a class="text-muted" style="font-size: 20px" href="{{settings.facebook}}"><i class="fab fa-facebook"></i></a></li>{% endif %}
+       {% if settings.whatsapp == True %}<li class="ms-3"><a class="text-muted" style="font-size: 20px" href="https://wa.me/{{settings.phone}}"><i class="fab fa-whatsapp"></i></a></li>{% endif %}
+       {% if settings.phone_feature == True %}<li class="ms-3"><a class="text-muted" style="font-size: 20px" href="tel:{{settings.phone}}"><i class="fas fa-phone"></i></a></li>{% endif %}
+      </ul>
+      {% endif %}
+    </footer>
+  </div>
+<!-- end of footer -->

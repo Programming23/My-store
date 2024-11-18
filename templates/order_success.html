@@ -1,0 +1,130 @@
+
+{% extends 'base_boot.html' %}
+{% load static %}
+
+
+{% block head %}
+    <style>
+        body {
+            direction: rtl;
+        }
+        .container-block {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 50px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .thank-you {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            color: blue;
+            margin-bottom: 20px;
+        }
+        .order-details {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .contact-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .contact-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .emoji {
+            font-size: 70px;
+            text-align: center;
+    display: block;
+    margin: 10px auto 15px auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 0 auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .h3{
+            display: inline-block;
+            direction: ltr;
+            font-size: 16px;
+        }
+    </style>
+{% endblock head %}
+
+{% block content %}
+
+<div class="container-block">
+    {% if settings.imogie == True %}<div class="emoji"><span>&#128512;</span></div>{% endif %}
+    <div class="thank-you">{{constants.command_title}}</div>
+    <div class="order-details" style="color: gray;">
+        {% for d in details %}
+        <p>{{d}}</p>
+        {% endfor %}
+    </div>
+    <div class="order-details">
+        <p style="text-align: center;
+        margin-bottom: 15px;">رقم طلبيتكم هو: <span style="color: red;direction: ltr;">{{order.number}}#</span></p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>المنتجات</th>
+                    <th>الكمية</th>
+                    <th>السعر</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in products %}
+                <tr>
+                    <td>{{item.product.name}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.getTotal}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td>مصاريف الشحن</td>
+                    <td>-</td>
+                    <td><h3 class="h3"><span id="total">{{ship}}</span> {{settings.currency}}</h3></td>
+                </tr>
+                <tr>
+                    <td>الإجمالي</td>
+                    <td>-</td>
+                    <td><h3 class="h3"><span id="total">{{total}}</span> {{settings.currency}}</h3></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p>{{settings.contact_note}}</p>
+    {% if settings.contact_section == True %}
+    <div class="contact-buttons">
+        {% if settings.phone_feature == True %}
+        <a class="contact-button" href="tel:{{settings.phone}}">
+            <i class="fas fa-phone"></i> {{constants.phone_button}}
+        </a>
+        {% endif %}
+        {% if settings.whatsapp == True %}<a class="contact-button" href="https://wa.me/{{settings.phone}}">
+            <i class="fab fa-whatsapp"></i> {{constants.whatsapp_button}}
+        </a>{% endif %}
+    </div>
+    {% endif %}
+    
+</div>
+{% endblock content %}

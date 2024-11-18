@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <meta name="description" content="{{settings.description}}">
+    <meta name="keywords" content="{% if settings.keywords != None %}{{settings.keywords}}{% endif %}">
+    <meta property="og:title" content="{{settings.site_title}}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:description" content="{{settings.description}}">
+    <meta name="twitter:title" content="{{settings.site_title}}">
+    <meta property="og:site_name" content="{{settings.site_name}}">
+    <meta name="twitter:image:alt" content="{{settings.site_title}}">
+    <meta property="og:description" content="{{settings.description}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{settings.icon.url}}" />
+
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <!-- bootstrap css -->
+    <style>
+         :root {
+            --color-primary: {{settings.color}}
+            ;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'boot/css/bootstrap.rtl.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <style>
+        #button-icon-cart {
+            position: relative;
+        }
+        
+        #button-icon-cart::before {
+            content: '{{cartQuantity}}';
+            position: absolute;
+            bottom: calc(100% - 12px);
+            left: 90%;
+            color: white;
+            background: #25806C;
+            font-size: 11px;
+            width: 25px;
+            display: flex;
+            align-items: center;
+            height: 25px;
+            justify-content: center;
+            border-radius: 50%;
+        }
+    </style>
+    {% block head %} {% endblock head %}
+</head>
+
+<body>
+    {% include 'compenents/header.html' %} {% block content %} {% endblock content %} {% include 'compenents/sub-form.html' %} {% include 'compenents/footer.html' %}
+
+    <!-- jquery -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <!-- isotope js -->
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.js"></script>
+    <!-- bootstrap js -->
+    <script src="{% static 'boot/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/fonts.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        function restrictInput(inputElement, p = 'A-Za-zأ-ي؀-ۿ\\s') {
+            var pattern = new RegExp('^[' + p + ']+$')
+            var inputValue = inputElement.value;
+
+            if (!pattern.test(inputValue)) {
+                // Remove any characters that are not alphabetical letters
+                var cleanValue = inputValue.replace(RegExp('[^' + p + ']+', 'g'), '');
+                inputElement.value = cleanValue;
+            }
+        }
+    </script>
+    {% block script %} {% endblock script %}
+</body>
+
+</html>

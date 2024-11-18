@@ -1,0 +1,19 @@
+{% load static %}
+<header class="p-2">
+    <a class="logo" href="{% url 'index' %}">
+        <img src="{{settings.logo.url}}" draggable="false" style="max-height:65px" >
+    </a>
+    <ul class="navbar-list" id="navbar-list">
+        <li><a href="{% url 'index' %}">الرئيسية</a></li>
+        <li><a href="{% url 'contact' %}">اتصل بنا</a></li>
+    </ul>
+    <div class="icons">
+        <a href="{% url 'cart' %}"><button class="icon" id="button-icon-cart">
+            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+        </button></a>
+        <button class="icon" id="bars-icon" onclick="showNavbarList('navbar-list')">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+        
+    </div>
+</header>
